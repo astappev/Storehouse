@@ -13,19 +13,16 @@ import java.util.Vector;
 
 public class nomenclaturу extends JFrame {
 	private Model model;
-	int i = 0;
+	private DefaultTableModel dataModel;
+	private String sqlToTable = "SELECT id,name,purchase_price,sale_price,rate,notes FROM nomenclature;";
 
-	public nomenclaturу(Model model) {
-		this.model = model;
+	public nomenclaturу(Model m) {
+		this.model = m;
 		initUI();
 
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				System.out.println("Window Activated Event");
-				invalidate();
-				validate();
-				revalidate();
-				repaint();
+				model.updateDataModel(dataModel, sqlToTable);
 			}
 		});
 	}
@@ -39,13 +36,11 @@ public class nomenclaturу extends JFrame {
 		columnNames.add("Сорт");
 		columnNames.add("Примечание");
 
-		Vector<Vector<Object>> data = this.model.select_table("SELECT id,name,purchase_price,sale_price,rate,notes FROM nomenclature;");
-
-		DefaultTableModel dataModel = new DefaultTableModel(data, columnNames);
+		Vector<Vector<Object>> data = this.model.select_table(sqlToTable);
+		dataModel = new DefaultTableModel(data, columnNames);
 
 		final JTable table = new JTable(dataModel) {
 			private static final long serialVersionUID = 1L;
-
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -112,7 +107,7 @@ public class nomenclaturу extends JFrame {
 
 		pack();
 		setTitle("Номенклатура товара");
-		setSize(500, 420);
+		setSize(600, 400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
