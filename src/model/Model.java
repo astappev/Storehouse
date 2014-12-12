@@ -1,5 +1,6 @@
 package model;
 
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.Vector;
 
@@ -110,5 +111,14 @@ public class Model {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
+	}
+
+	public void updateDataModel(DefaultTableModel dataModel, String sql) {
+		Vector<Vector<Object>> data = this.select_table(sql);
+		dataModel.setRowCount(0);
+		for(int i = 0; i < data.size(); ++i) {
+			dataModel.addRow(data.get(i));
+		}
+		dataModel.fireTableDataChanged();
 	}
 }

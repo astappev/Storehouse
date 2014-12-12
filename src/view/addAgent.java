@@ -21,10 +21,17 @@ public class addAgent extends JFrame {
 		initUI();
 	}
 
-	public addAgent(Model model, int id) {
+	public addAgent(Model model, int type) {
 		this.model = model;
+		this.type = type;
+		initUI();
+	}
+
+	public addAgent(Model model, int type, int id) {
+		this.model = model;
+		this.type = type;
 		this.id = id;
-		Vector<Vector<Object>> data = this.model.select_table("SELECT name,notes,agent_type FROM agent WHERE id=" + id + ";");
+		Vector<Vector<Object>> data = this.model.select_table("SELECT name,notes,agent_type FROM agent WHERE id=" + id + " AND agent_type=" + type + ";");
 		this.fio = (String) data.get(0).get(0);
 		this.notes = (String) data.get(0).get(1);
 		this.type = Integer.parseInt(data.get(0).get(2).toString());

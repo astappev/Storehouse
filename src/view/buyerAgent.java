@@ -13,36 +13,32 @@ import java.util.Vector;
 
 public class buyerAgent extends JFrame {
 	private Model model;
-	int i = 0;
+	private DefaultTableModel dataModel;
+	private String sqlToTable = "SELECT id,name,notes FROM agent WHERE agent_type = 2;";
 
-	public buyerAgent(Model model) {
-		this.model = model;
+	public buyerAgent(Model m) {
+		this.model = m;
 		initUI();
 
 		this.addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				System.out.println("Window Activated Event");
-				invalidate();
-				validate();
-				revalidate();
-				repaint();
+				model.updateDataModel(dataModel, sqlToTable);
 			}
 		});
 	}
 
 	public void initUI() {
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("id" + i++);
+		columnNames.add("id");
 		columnNames.add("ФИО");
 		columnNames.add("Примечание");
 
-		Vector<Vector<Object>> data = this.model.select_table("SELECT id,name,notes FROM agent WHERE agent_type = 2;");
+		Vector<Vector<Object>> data = this.model.select_table(sqlToTable);
 
-		DefaultTableModel dataModel = new DefaultTableModel(data, columnNames);
+		dataModel = new DefaultTableModel(data, columnNames);
 
 		final JTable table = new JTable(dataModel) {
 			private static final long serialVersionUID = 1L;
-
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -71,7 +67,7 @@ public class buyerAgent extends JFrame {
 				if (e.getClickCount() == 2) {
 					JTable target = (JTable) e.getSource();
 					int row = target.getSelectedRow();
-					addAgent addWindow = new addAgent(model, Integer.parseInt(table.getValueAt(row, 0).toString()));
+					addAgent addWindow = new addAgent(model, 2, Integer.parseInt(table.getValueAt(row, 0).toString()));
 					addWindow.setVisible(true);
 				}
 			}
@@ -101,7 +97,7 @@ public class buyerAgent extends JFrame {
 		JButton addButton = new JButton("Добавить");
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addAgent addWindow = new addAgent(model);
+				addAgent addWindow = new addAgent(model, 2);
 				addWindow.setVisible(true);
 			}
 		});
