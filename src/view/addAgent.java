@@ -1,5 +1,6 @@
 package view;
 
+import model.JTextFieldLimit;
 import model.Model;
 import model.MyComboBox;
 

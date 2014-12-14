@@ -127,10 +127,14 @@ public class mainWindow extends JFrame {
 		JMenu reportsSubMenu = new JMenu("Отчеты");
 		JMenuItem syntheticReportsSubMenu = new JMenuItem("Ведомость синтетического учета");
 		syntheticReportsSubMenu.setToolTipText("Оборотно-сальдовая ведомость синтетического учета");
+		syntheticReportsSubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new report(model);
+				view.setVisible(true);
+			}
+		});
 		reportsSubMenu.add(syntheticReportsSubMenu);
-		JMenuItem analyticalReportsSubMenu = new JMenuItem("Ведомость агалитического учета");
-		analyticalReportsSubMenu.setToolTipText("Оборотно-сальдовая ведомость аналитического учета по контрагентам и товарам");
-		reportsSubMenu.add(analyticalReportsSubMenu);
 
 		JMenuItem exitItem = new JMenuItem("Выход");
 		exitItem.setToolTipText("Зыкрыть программу");
