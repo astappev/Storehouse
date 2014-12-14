@@ -95,7 +95,7 @@ public class addOperation extends JFrame {
 		documentLabel.setBounds(10, 10, 100, 25);
 		panel.add(documentLabel);
 
-		Vector<Vector<Object>> data = this.model.select_table("SELECT id,name FROM document_type;");
+		Vector<Vector<Object>> data = this.model.select_table("SELECT id,name FROM document_type WHERE id IN(1,2);");
 		typeBox = new MyComboBox(data);
 		if (document_type != null) typeBox.setSelectedItem(document_type);
 		typeBox.addActionListener(new ActionListener() {

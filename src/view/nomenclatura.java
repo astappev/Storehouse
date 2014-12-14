@@ -11,12 +11,12 @@ import java.awt.event.*;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class nomenclaturу extends JFrame {
+public class nomenclatura extends JFrame {
 	private Model model;
 	private DefaultTableModel dataModel;
 	private String sqlToTable = "SELECT id,name,purchase_price,sale_price,rate,notes FROM nomenclature;";
 
-	public nomenclaturу(Model m) {
+	public nomenclatura(Model m) {
 		this.model = m;
 		initUI();
 

@@ -34,7 +34,7 @@ public class mainWindow extends JFrame {
 		nomenclatureDirectorySubMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				JFrame view = new nomenclaturу(model);
+				JFrame view = new nomenclatura(model);
 				view.setVisible(true);
 			}
 		});
@@ -79,16 +79,26 @@ public class mainWindow extends JFrame {
 		directorySubMenu.add(baseTransactionDirectorySubMenu);
 
 		JMenu documentsSubMenu = new JMenu("Документы");
-		JMenuItem primaryDocumentsSubMenu = new JMenuItem("Создать проводку");
-		primaryDocumentsSubMenu.setToolTipText("Создать проводку по накладной");
-		primaryDocumentsSubMenu.addActionListener(new ActionListener() {
+		JMenuItem addDocumentsSubMenu = new JMenuItem("Провести операцию");
+		addDocumentsSubMenu.setToolTipText("Создать проводку по накладной");
+		addDocumentsSubMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				JFrame view = new addOperation(model);
 				view.setVisible(true);
 			}
 		});
-		documentsSubMenu.add(primaryDocumentsSubMenu);
+		documentsSubMenu.add(addDocumentsSubMenu);
+		JMenuItem viewDocumentsSubMenu = new JMenuItem("Журнал операций");
+		viewDocumentsSubMenu.setToolTipText("Журнал завершенных операций");
+		viewDocumentsSubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new operation(model);
+				view.setVisible(true);
+			}
+		});
+		documentsSubMenu.add(viewDocumentsSubMenu);
 
 		JMenu storageSubMenu = new JMenu("Склад");
 		JMenuItem storageStorageSubMenu = new JMenuItem("Товары на складе");
@@ -105,6 +115,13 @@ public class mainWindow extends JFrame {
 		JMenu transactionSubMenu = new JMenu("Проводки");
 		JMenuItem transactionTransactionSubMenu = new JMenuItem("Бухгалтерские проводки");
 		transactionTransactionSubMenu.setToolTipText("Бухгалтерские провоки вызванные первичными документами");
+		transactionTransactionSubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new transaction(model);
+				view.setVisible(true);
+			}
+		});
 		transactionSubMenu.add(transactionTransactionSubMenu);
 
 		JMenu reportsSubMenu = new JMenu("Отчеты");

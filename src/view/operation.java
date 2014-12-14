@@ -11,12 +11,12 @@ import java.awt.event.*;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class storage extends JFrame {
+public class operation extends JFrame {
 	private Model model;
 	private DefaultTableModel dataModel;
-	private String sqlToTable = "SELECT nomenclature.id, name,rate,notes,purchase_price,sale_price,quantity,total,avg_price FROM nomenclature INNER JOIN storage ON nomenclature.id = storage.nomenclature_id;";
+	private String sqlToTable = "SELECT operation_log.id, document_type.name, operation_log.data::date, agent.name, nomenclature.name, operation_log.quantity, operation_log.price, operation_log.total FROM operation_log INNER JOIN nomenclature ON nomenclature.id = operation_log.nomenclature_id INNER JOIN document_type ON operation_log.document_type = document_type.id INNER JOIN agent ON operation_log.agent_id = agent.id;";
 
-	public storage(Model m) {
+	public operation(Model m) {
 		this.model = m;
 		initUI();
 
@@ -30,14 +30,13 @@ public class storage extends JFrame {
 	public void initUI() {
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Номер");
-		columnNames.add("Название");
-		columnNames.add("Сорт");
-		columnNames.add("Примечание");
-		columnNames.add("Цена покупки");
-		columnNames.add("Цена продажи");
+		columnNames.add("Тип документа");
+		columnNames.add("Дата");
+		columnNames.add("Контрагент");
+		columnNames.add("Номенклатура");
 		columnNames.add("Количество");
-		columnNames.add("Общая стоимость");
-		columnNames.add("Средняя стоимость");
+		columnNames.add("Цена");
+		columnNames.add("Сумма документа");
 
 		Vector<Vector<Object>> data = this.model.select_table(sqlToTable);
 		dataModel = new DefaultTableModel(data, columnNames);
@@ -72,7 +71,7 @@ public class storage extends JFrame {
 				if (e.getClickCount() == 2) {
 					JTable target = (JTable) e.getSource();
 					int id = Integer.parseInt(table.getValueAt(target.getSelectedRow(), 0).toString());
-					JFrame view = new addStorage(model, id);
+					JFrame view = new transaction(model, id);
 					view.setVisible(true);
 				}
 			}
@@ -100,7 +99,7 @@ public class storage extends JFrame {
 		add(panel, BorderLayout.NORTH);
 
 		pack();
-		setTitle("Склад");
+		setTitle("Журнал операций");
 		setSize(800, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
