@@ -22,8 +22,8 @@ public class mainWindow extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel label = new JLabel("Описание программы");
-		label.setBounds(25, 15, 225, 30);
+		JLabel label = new JLabel("<html>Лабораторная 1-3<br>По дисцилине: Информационные системы бухгалтерского учета<br><br>Ученика группы ИНФ-12-1<br>Астаппева Олега</html>");
+		label.setBounds(20, 20, 600, 440);
 		panel.add(label);
 
 		JMenuBar menubar = new JMenuBar();
