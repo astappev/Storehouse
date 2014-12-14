@@ -34,8 +34,7 @@ public class mainWindow extends JFrame {
 		nomenclatureDirectorySubMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Model model = new Model();
-				nomenclaturу view = new nomenclaturу(model);
+				JFrame view = new nomenclaturу(model);
 				view.setVisible(true);
 			}
 		});
@@ -44,8 +43,7 @@ public class mainWindow extends JFrame {
 		agentProviderDirectorySubMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Model model = new Model();
-				providerAgent view = new providerAgent(model);
+				JFrame view = new providerAgent(model);
 				view.setVisible(true);
 			}
 		});
@@ -54,27 +52,54 @@ public class mainWindow extends JFrame {
 		agentBuyerDirectorySubMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Model model = new Model();
-				buyerAgent view = new buyerAgent(model);
+				JFrame view = new buyerAgent(model);
 				view.setVisible(true);
 			}
 		});
 		directorySubMenu.add(agentBuyerDirectorySubMenu);
 		JMenuItem accountsDirectorySubMenu = new JMenuItem("План счетов");
 		accountsDirectorySubMenu.setToolTipText("План счетов, на которых проводится бухгалтерский учет для учета торговых операций и анализа финансовых результатов");
+		accountsDirectorySubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new accounts(model);
+				view.setVisible(true);
+			}
+		});
 		directorySubMenu.add(accountsDirectorySubMenu);
 		JMenuItem baseTransactionDirectorySubMenu = new JMenuItem("Базовые проводки");
 		baseTransactionDirectorySubMenu.setToolTipText("Перечень базовых проводок для отображения торговых операций в бухгалтерском учете, вызваных первичными документами");
+		baseTransactionDirectorySubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new transactionType(model);
+				view.setVisible(true);
+			}
+		});
 		directorySubMenu.add(baseTransactionDirectorySubMenu);
 
 		JMenu documentsSubMenu = new JMenu("Документы");
-		JMenuItem primaryDocumentsSubMenu = new JMenuItem("Первичные документы");
-		primaryDocumentsSubMenu.setToolTipText("Приходная накладная, расходная накладна и банковская выписка");
+		JMenuItem primaryDocumentsSubMenu = new JMenuItem("Создать проводку");
+		primaryDocumentsSubMenu.setToolTipText("Создать проводку по накладной");
+		primaryDocumentsSubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new addOperation(model);
+				view.setVisible(true);
+			}
+		});
 		documentsSubMenu.add(primaryDocumentsSubMenu);
 
 		JMenu storageSubMenu = new JMenu("Склад");
 		JMenuItem storageStorageSubMenu = new JMenuItem("Товары на складе");
 		storageStorageSubMenu.setToolTipText("Информация о товарах на складе");
+		storageStorageSubMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFrame view = new storage(model);
+				view.setVisible(true);
+			}
+		});
 		storageSubMenu.add(storageStorageSubMenu);
 
 		JMenu transactionSubMenu = new JMenu("Проводки");

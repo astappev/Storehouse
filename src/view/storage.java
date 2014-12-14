@@ -11,12 +11,12 @@ import java.awt.event.*;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class nomenclaturу extends JFrame {
+public class storage extends JFrame {
 	private Model model;
 	private DefaultTableModel dataModel;
-	private String sqlToTable = "SELECT id,name,purchase_price,sale_price,rate,notes FROM nomenclature;";
+	private String sqlToTable = "SELECT name,rate,notes,purchase_price,sale_price,quantity,total,avg_price FROM nomenclature INNER JOIN storage ON nomenclature.id = storage.nomenclature_id;";
 
-	public nomenclaturу(Model m) {
+	public storage(Model m) {
 		this.model = m;
 		initUI();
 
@@ -29,12 +29,14 @@ public class nomenclaturу extends JFrame {
 
 	public void initUI() {
 		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("id");
 		columnNames.add("Название");
-		columnNames.add("Цена покупки");
-		columnNames.add("Цена продажи");
 		columnNames.add("Сорт");
 		columnNames.add("Примечание");
+		columnNames.add("Цена покупки");
+		columnNames.add("Цена продажи");
+		columnNames.add("Количество");
+		columnNames.add("Общая стоимость");
+		columnNames.add("Средняя стоимость");
 
 		Vector<Vector<Object>> data = this.model.select_table(sqlToTable);
 		dataModel = new DefaultTableModel(data, columnNames);
@@ -64,7 +66,7 @@ public class nomenclaturу extends JFrame {
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.addMouseListener(new MouseAdapter() {
+		/*table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					JTable target = (JTable) e.getSource();
@@ -73,7 +75,7 @@ public class nomenclaturу extends JFrame {
 					addWindow.setVisible(true);
 				}
 			}
-		});
+		});*/
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 
@@ -96,17 +98,8 @@ public class nomenclaturу extends JFrame {
 		panel.add(button, BorderLayout.EAST);
 		add(panel, BorderLayout.NORTH);
 
-		JButton addButton = new JButton("Добавить");
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addNomenclature addWindow = new addNomenclature(model);
-				addWindow.setVisible(true);
-			}
-		});
-		add(addButton, BorderLayout.SOUTH);
-
 		pack();
-		setTitle("Номенклатура товара");
+		setTitle("Склад");
 		setSize(800, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

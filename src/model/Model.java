@@ -32,21 +32,25 @@ public class Model {
 		return true;
 	}
 
-	public void execute_all(String[] sql) {
+	public int insert(String sql) {
+		Integer id = 0;
 		try {
-			c.setAutoCommit(false);
 			Statement stmt = c.createStatement();
-			for (int i = sql.length - 1; i >= 0; --i) {
-				stmt.executeUpdate(sql[i]);
+			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = stmt.getGeneratedKeys();
+
+
+			if ( rs.next() ) {
+				id = rs.getInt(1);
 			}
 			stmt.close();
-			c.commit();
-			c.close();
-			c.setAutoCommit(true);
+			//c.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
+			//System.exit(0);
 		}
+		if(id != 0) return id;
+		return 0;
 	}
 
 	public Vector<Vector<Object>> select_table(String sql) {
@@ -86,31 +90,29 @@ public class Model {
 		return data;
 	}
 
-	public void select(String sql) {
+	public Vector<Object> select(String sql) {
+		Vector<Object> vector = new Vector<Object>();
 		try {
 			Statement stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			System.out.print(rs);
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+
 			while (rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				int age = rs.getInt("age");
-				String address = rs.getString("address");
-				float salary = rs.getFloat("salary");
-				System.out.println("ID = " + id);
-				System.out.println("NAME = " + name);
-				System.out.println("AGE = " + age);
-				System.out.println("ADDRESS = " + address);
-				System.out.println("SALARY = " + salary);
-				System.out.println();
+				for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+					vector.add(rs.getObject(columnIndex));
+				}
 			}
+
 			rs.close();
 			stmt.close();
-			c.close();
+			//c.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
+
+		return vector;
 	}
 
 	public void updateDataModel(DefaultTableModel dataModel, String sql) {

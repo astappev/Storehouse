@@ -1,6 +1,7 @@
 package view;
 
 import model.Model;
+import model.MyComboBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,14 +72,10 @@ public class addAgent extends JFrame {
 		panel.add(agentLabel);
 
 		Vector<Vector<Object>> data = this.model.select_table("SELECT id,name FROM agent_type;");
-
-		AgentType agentTypes[] = new AgentType[data.size()];
-		for (int i = 0; i < data.size(); ++i) {
-			agentTypes[i] = new AgentType(Integer.parseInt(data.get(i).get(0).toString()), data.get(i).get(1).toString());
-		}
-		final JComboBox typeBox = new JComboBox(agentTypes);
-		if (type != null) typeBox.setSelectedIndex(type - 1);
+		final MyComboBox typeBox = new MyComboBox(data);
+		if (type != null) typeBox.setSelectedItem(type);
 		typeBox.setBounds(100, 70, 325, 25);
+		typeBox.setBackground(Color.blue);
 		agentLabel.setLabelFor(typeBox);
 		panel.add(typeBox);
 
@@ -92,7 +89,7 @@ public class addAgent extends JFrame {
 					return;
 				}
 				String notesString = notesText.getText();
-				int typeNumber = ((AgentType) typeBox.getSelectedItem()).getId();
+				int typeNumber = typeBox.getSelectedItem().getValue();
 				if (id == null) {
 					if (model.execute("INSERT INTO agent(name,notes,agent_type) VALUES ('" + fioString + "', '" + notesString + "', " + typeNumber + ");")) {
 						dispose();
@@ -133,35 +130,5 @@ public class addAgent extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
-	}
-
-	class AgentType {
-		private String name;
-		private int id;
-
-		public AgentType(int id, String name) {
-			this.name = name;
-			this.id = id;
-		}
-
-		public String toString() {
-			return getName();
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public int getId() {
-			return id;
-		}
-
-		public void setId(int id) {
-			this.id = id;
-		}
 	}
 }
